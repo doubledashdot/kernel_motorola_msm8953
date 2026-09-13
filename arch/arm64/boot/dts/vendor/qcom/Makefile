@@ -568,6 +568,17 @@ dtb-$(CONFIG_ARCH_MSM8953) += msm8953-cdp.dtb \
 	msm8953-pmi632-cdp-s2.dtb \
 	apq8053-batcam.dtb
 
+ifeq ($(CONFIG_MACH_MOTOROLA_MSM8953),y)
+# Add 1k of padding to the DTBs to allow for environment variables
+# to be runtime added by the bootloader (i.e. /chosen properties)
+DTC_FLAGS += -p 1024
+
+dtb-$(CONFIG_MACH_MOTOROLA_SANDERS) += msm8953-sanders-p1.dtb
+dtb-$(CONFIG_MACH_MOTOROLA_SANDERS) += msm8953-sanders-p2.dtb
+dtb-$(CONFIG_MACH_MOTOROLA_SANDERS) += msm8953-sanders-p3.dtb
+dtb-$(CONFIG_MACH_MOTOROLA_SANDERS) += msm8953-sanders-p4.dtb
+endif
+
 dtb-$(CONFIG_ARCH_SDM450) += sdm450-rcm.dtb \
 	sdm450-cdp.dtb \
 	sdm450-mtp.dtb \
