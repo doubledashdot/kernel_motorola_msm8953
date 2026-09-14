@@ -1,0 +1,10 @@
+menu "Motorola MSM8953 selection"
+
+config MACH_MOTOROLA_MSM8953
+	bool "Support for Motorola MSM8953 platform"
+
+config MACH_MOTOROLA_SANDERS
+	bool "Motorola Moto G5S Plus (sanders)"
+	depends on MACH_MOTOROLA_MSM8953
+
+endmenu
