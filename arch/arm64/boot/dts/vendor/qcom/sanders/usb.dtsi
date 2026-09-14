@@ -33,5 +33,6 @@
 	pinctrl-0 = <&usb_id_active>;
 	pinctrl-1 = <&usb_id_sleep>;
 	vbus_dwc3-supply = <&smbcharger_charger_otg>;
+	dpdm-supply = <&qusb_phy>;
 	extcon = <&qpnp_smbcharger>;
 };
