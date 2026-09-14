@@ -17,6 +17,7 @@
 #include "msm_isp_stats_util.h"
 #include "msm_isp_axi_util.h"
 #include "msm_isp48.h"
+#include "msm_isp.h"
 #include "trace/events/msm_cam.h"
 
 #define HANDLE_TO_IDX(handle) (handle & 0xFF)
