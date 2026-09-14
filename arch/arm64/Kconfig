@@ -314,6 +314,8 @@ config BROKEN_GAS_INST
 
 source "arch/arm64/Kconfig.platforms"
 
+source "arch/arm64/Kconfig.moto8953"
+
 menu "Bus support"
 
 config PCI
