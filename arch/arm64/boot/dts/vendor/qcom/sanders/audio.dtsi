@@ -141,18 +141,21 @@
 					"analog-codec";
 	};
 
-		cs35l35@40 {
-			compatible = "cirrus,cs35l35";
-			reg = <0x40>;
-			reset-gpio = <&tlmm 137 0>;
-			irq-gpio = <&tlmm 132 1>;
-			interrupt-parent = <&tlmm>;
-			interrupts = <132 8>;
+};
 
-			VA-supply = <&dummy_vreg>;
-			VP-supply = <&dummy_vreg>;
-			pinctrl-names = "default";
-			pinctrl-0 = <&cs35l35_irq_default &cs35l35_reset_default>;
+&i2c_7 {
+	cs35l35@40 {
+		compatible = "cirrus,cs35l35";
+		reg = <0x40>;
+		reset-gpio = <&tlmm 137 0>;
+		irq-gpio = <&tlmm 132 1>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <132 8>;
+
+		VA-supply = <&dummy_vreg>;
+		VP-supply = <&dummy_vreg>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&cs35l35_irq_default &cs35l35_reset_default>;
 	};
 };
 
