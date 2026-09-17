@@ -1,0 +1,1 @@
+/home/skye/mot/techpack/camera-legacy/include/uapi/media/msm_isp-legacy.h
