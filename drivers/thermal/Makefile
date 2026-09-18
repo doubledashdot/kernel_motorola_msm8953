@@ -3,6 +3,10 @@
 # Makefile for sensor chip drivers.
 #
 
+ifeq ($(CONFIG_MACH_MOTOROLA_MSM8953), y)
+ccflags-subdir-y += -Os
+endif
+
 obj-$(CONFIG_THERMAL)		+= thermal_sys.o
 thermal_sys-y			+= thermal_core.o thermal_sysfs.o \
 					thermal_helpers.o

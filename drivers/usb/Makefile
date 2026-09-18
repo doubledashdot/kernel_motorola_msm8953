@@ -3,6 +3,10 @@
 # Makefile for the kernel USB device drivers.
 #
 
+ifeq ($(CONFIG_MACH_MOTOROLA_MSM8953), y)
+ccflags-subdir-y += -Os
+endif
+
 # Object files in subdirectories
 
 obj-$(CONFIG_USB)		+= core/

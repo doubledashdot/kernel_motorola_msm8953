@@ -3,6 +3,10 @@
 # Makefile for nfc devices
 #
 
+ifeq ($(CONFIG_MACH_MOTOROLA_MSM8953), y)
+ccflags-subdir-y += -Os
+endif
+
 obj-$(CONFIG_NFC_FDP)		+= fdp/
 obj-$(CONFIG_NFC_PN544)		+= pn544/
 obj-$(CONFIG_NFC_MICROREAD)	+= microread/

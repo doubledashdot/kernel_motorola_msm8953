@@ -43,6 +43,9 @@ ifeq ($(CONFIG_ARCH_MSM8937), y)
 LINUXINCLUDE    += \
                 -include $(srctree)/techpack/audio-legacy/config/sdm450autoconf.h
 endif
+ifeq ($(CONFIG_MACH_MOTOROLA_MSM8953), y)
+ccflags-subdir-y += -Os
+endif
 obj-y += soc/
 obj-y += dsp/
 obj-y += ipc/

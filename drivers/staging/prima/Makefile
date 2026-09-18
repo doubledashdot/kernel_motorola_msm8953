@@ -1,3 +1,6 @@
+ifeq ($(CONFIG_MACH_MOTOROLA_MSM8953), y)
+ccflags-subdir-y += -Os
+endif
 default: all
 
 KBUILD_OPTIONS := WLAN_ROOT=$(PWD)

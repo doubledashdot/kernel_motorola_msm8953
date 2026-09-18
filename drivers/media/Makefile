@@ -3,6 +3,10 @@
 # Makefile for the kernel multimedia device drivers.
 #
 
+ifeq ($(CONFIG_MACH_MOTOROLA_MSM8953), y)
+ccflags-subdir-y += -Os
+endif
+
 media-objs	:= media-device.o media-devnode.o media-entity.o
 
 #
