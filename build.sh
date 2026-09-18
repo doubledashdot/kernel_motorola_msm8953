@@ -5,9 +5,7 @@
 #          sudo apt-get install -yqq bc bison device-tree-compiler flex \
 #            gcc-aarch64-linux-gnu libssl-dev lz4 make python3
 
-make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- vendor/moto8953-perf_defconfig
-          ./scripts/kconfig/merge_config.sh -m .config \
-            arch/arm64/configs/vendor/motorola/sanders.config
+make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- vendor/moto8953-perf_defconfig vendor/motorola/sanders.config
 
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- olddefconfig
 
