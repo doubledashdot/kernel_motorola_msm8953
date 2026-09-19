@@ -3,6 +3,8 @@
 # Makefile for sensor chip drivers.
 #
 
+subdir-ccflags-$(CONFIG_MACH_MOTOROLA_MSM8953) += -Os
+
 obj-$(CONFIG_HWMON)		+= hwmon.o
 obj-$(CONFIG_HWMON_VID)		+= hwmon-vid.o
 

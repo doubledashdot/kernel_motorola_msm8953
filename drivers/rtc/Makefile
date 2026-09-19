@@ -3,6 +3,8 @@
 # Makefile for RTC class/drivers.
 #
 
+subdir-ccflags-$(CONFIG_MACH_MOTOROLA_MSM8953) += -Os
+
 ccflags-$(CONFIG_RTC_DEBUG)	:= -DDEBUG
 
 obj-$(CONFIG_RTC_LIB)		+= rtc-lib.o

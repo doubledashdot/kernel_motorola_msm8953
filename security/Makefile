@@ -3,6 +3,8 @@
 # Makefile for the kernel security code
 #
 
+subdir-ccflags-$(CONFIG_MACH_MOTOROLA_MSM8953) += -Os
+
 obj-$(CONFIG_KEYS)			+= keys/
 subdir-$(CONFIG_SECURITY_SELINUX)	+= selinux
 subdir-$(CONFIG_SECURITY_SMACK)		+= smack
