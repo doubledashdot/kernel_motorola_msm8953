@@ -564,6 +564,7 @@ static void ion_dma_buf_kunmap(struct dma_buf *dmabuf, unsigned long offset,
 	}
 }
 
+
 static int ion_sgl_sync_range(struct device *dev, struct scatterlist *sgl,
 			      unsigned int nents, unsigned long offset,
 			      unsigned long length,
@@ -571,25 +572,26 @@ static int ion_sgl_sync_range(struct device *dev, struct scatterlist *sgl,
 {
 	int i;
 	struct scatterlist *sg;
-	unsigned int len = 0;
 
 	for_each_sg(sgl, sg, nents, i) {
-		unsigned int sg_offset, sg_left, size = 0;
+		unsigned int sg_len, sg_offset, size;
 		dma_addr_t sg_dma_addr;
 
-		if (sg_dma_len(sg) == 0 && sg->length == 0)
-			break;
+		sg_len = sg_dma_len(sg);
+		if (!sg_len)
+			sg_len = sg->length;
+		if (!sg_len)
+			continue;
 
-		if (len + sg->length <= offset) {
-			len += sg->length;
+		if (offset >= sg_len) {
+			offset -= sg_len;
 			continue;
 		}
 
-		sg_offset = offset - len;
-		sg_left = sg->length - sg_offset;
-		size = min_t(unsigned long, length, sg_left);
-
+		sg_offset = offset;
+		size = min_t(unsigned long, length, sg_len - sg_offset);
 		sg_dma_addr = sg_dma_address(sg);
+
 		if (for_cpu)
 			dma_sync_single_range_for_cpu(dev, sg_dma_addr,
 						      sg_offset, size, dir);
@@ -597,10 +599,8 @@ static int ion_sgl_sync_range(struct device *dev, struct scatterlist *sgl,
 			dma_sync_single_range_for_device(dev, sg_dma_addr,
 							 sg_offset, size, dir);
 
-		len += sg->length;
-		offset += size;
+		offset = 0;
 		length -= size;
-
 		if (length == 0)
 			break;
 	}
