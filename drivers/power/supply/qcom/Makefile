@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 obj-$(CONFIG_SMB1360_CHARGER_FG)	+= smb1360-charger-fg.o
-obj-y += step-chg-jeita.o
-obj-$(CONFIG_QPNP_SMB5)			+= battery.o qpnp-smb5.o smb5-lib.o storm-watch.o schgm-flash.o
+obj-$(CONFIG_QPNP_SMB5)			+= step-chg-jeita.o battery.o qpnp-smb5.o smb5-lib.o storm-watch.o schgm-flash.o
 obj-$(CONFIG_SMB1390_CHARGE_PUMP_PSY)	+= smb1390-charger-psy.o
 obj-$(CONFIG_SMB1355_SLAVE_CHARGER)	+= smb1355-charger.o
 obj-$(CONFIG_SMB1351_USB_CHARGER)	+= smb1351-charger.o battery.o
@@ -13,7 +12,7 @@ obj-$(CONFIG_QPNP_QNOVO5)		+= qpnp-qnovo5.o battery.o
 obj-$(CONFIG_QPNP_FG_GEN4)		+= qpnp-fg-gen4.o fg-memif.o fg-util.o fg-alg.o
 obj-$(CONFIG_QPNP_QG)			+= qpnp-qg.o qg-util.o qg-soc.o qg-sdam.o qg-battery-profile.o qg-profile-lib.o fg-alg.o
 obj-$(CONFIG_QPNP_SMBCHARGER)		+= qpnp-smbcharger.o
-obj-$(CONFIG_QPNP_SMBCHARGER_MMI_LITE)	+= qpnp-smbcharger-mmi-lite.o
+obj-$(CONFIG_QPNP_SMBCHARGER_MMI_LITE)	+= step-chg-jeita.o qpnp-smbcharger-mmi-lite.o
 obj-$(CONFIG_HL6111R)			+= hl6111r.o
 obj-$(CONFIG_SMB1398_CHARGER)		+= smb1398-charger.o
 obj-$(CONFIG_QPNP_SMBLITE)		+= step-chg-jeita.o battery.o qpnp-smblite.o smblite-lib.o storm-watch.o schgm-flashlite.o

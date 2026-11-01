@@ -2657,28 +2657,28 @@ static int smbchg_system_temp_level_set(struct smbchg_chip *chip,
 	}
 
 	if (chip->therm_lvl_sel == 0) {
-		rc = vote(chip->usb_icl_votable, THERMAL_ICL_VOTER, false, 0);
-		if (rc < 0)
-			pr_err("Couldn't disable USB thermal ICL vote rc=%d\n",
-				rc);
+        rc = vote(chip->usb_icl_votable, THERMAL_ICL_VOTER, false, 0);
+        if (rc < 0)
+            pr_err("Couldn't disable USB thermal ICL vote rc=%d\n",
+                rc);
 
-		rc = vote(chip->dc_icl_votable, THERMAL_ICL_VOTER, false, 0);
-		if (rc < 0)
-			pr_err("Couldn't disable DC thermal ICL vote rc=%d\n",
-				rc);
+        rc = vote(chip->dc_icl_votable, THERMAL_ICL_VOTER, false, 0);
+        if (rc < 0)
+            pr_err("Couldn't disable DC thermal ICL vote rc=%d\n",
+                rc);
 	} else {
-		thermal_icl_ma =
-			(int)chip->thermal_mitigation[chip->therm_lvl_sel];
-		rc = vote(chip->usb_icl_votable, THERMAL_ICL_VOTER, true,
-					thermal_icl_ma);
-		if (rc < 0)
-			pr_err("Couldn't vote for USB thermal ICL rc=%d\n", rc);
+		thermal_icl_ma = (int)chip->thermal_mitigation[chip->therm_lvl_sel];
 
-		rc = vote(chip->dc_icl_votable, THERMAL_ICL_VOTER, true,
-					thermal_icl_ma);
-		if (rc < 0)
-			pr_err("Couldn't vote for DC thermal ICL rc=%d\n", rc);
-	}
+        rc = vote(chip->usb_icl_votable, THERMAL_ICL_VOTER, true,
+                    thermal_icl_ma);
+        if (rc < 0)
+            pr_err("Couldn't vote for USB thermal ICL rc=%d\n", rc);
+
+        rc = vote(chip->dc_icl_votable, THERMAL_ICL_VOTER, true,
+                    thermal_icl_ma);
+        if (rc < 0)
+            pr_err("Couldn't vote for DC thermal ICL rc=%d\n", rc);
+    }
 
 	if (prev_therm_lvl == chip->thermal_levels - 1) {
 		/*
@@ -3566,7 +3566,7 @@ static int smbchg_otg_regulator_is_enable(struct regulator_dev *rdev)
 	return (reg & OTG_EN_BIT) ? 1 : 0;
 }
 
-struct regulator_ops smbchg_otg_reg_ops = {
+static struct regulator_ops smbchg_otg_reg_ops = {
 	.enable		= smbchg_otg_regulator_enable,
 	.disable	= smbchg_otg_regulator_disable,
 	.is_enabled	= smbchg_otg_regulator_is_enable,
@@ -3659,7 +3659,7 @@ static int smbchg_external_otg_regulator_is_enable(struct regulator_dev *rdev)
 	return get_client_vote(chip->usb_suspend_votable, OTG_EN_VOTER);
 }
 
-struct regulator_ops smbchg_external_otg_reg_ops = {
+static struct regulator_ops smbchg_external_otg_reg_ops = {
 	.enable		= smbchg_external_otg_regulator_enable,
 	.disable	= smbchg_external_otg_regulator_disable,
 	.is_enabled	= smbchg_external_otg_regulator_is_enable,
@@ -4505,6 +4505,7 @@ static void handle_usb_insertion(struct smbchg_chip *chip)
 	pr_smb(PR_STATUS, "triggered\n");
 	/* usb inserted */
 	read_usb_type(chip, &usb_type_name, &usb_supply_type);
+
 	pr_smb(PR_STATUS,
 		"inserted type = %d (%s)", usb_supply_type, usb_type_name);
 
@@ -4553,7 +4554,7 @@ static void handle_usb_insertion(struct smbchg_chip *chip)
 	}
 }
 
-void update_usb_status(struct smbchg_chip *chip, bool usb_present, bool force)
+static void update_usb_status(struct smbchg_chip *chip, bool usb_present, bool force)
 {
 	mutex_lock(&chip->usb_status_lock);
 	if (force) {
@@ -5655,7 +5656,6 @@ static enum power_supply_property smbchg_battery_properties[] = {
 	POWER_SUPPLY_PROP_RESTRICTED_CHARGING,
 	POWER_SUPPLY_PROP_ALLOW_HVDCP3,
 	POWER_SUPPLY_PROP_MAX_PULSE_ALLOWED,
-	POWER_SUPPLY_PROP_CHARGE_FULL_DESIGN,
 	POWER_SUPPLY_PROP_CHARGE_CONTROL_LIMIT_MAX,
 	POWER_SUPPLY_PROP_CHARGE_CONTROL_LIMIT,
 };
@@ -7827,6 +7827,8 @@ static int smbchg_probe(struct platform_device *pdev)
 	struct power_supply_config batt_psy_cfg = {};
 	struct power_supply_config dc_psy_cfg = {};
 
+	smbchg_default_hvdcp_icl_ma = 1800;
+
 	if (of_property_read_bool(pdev->dev.of_node, "qcom,external-typec")) {
 		/* read the type power supply name */
 		rc = of_property_read_string(pdev->dev.of_node,
@@ -8325,4 +8327,3 @@ module_exit(smbchg_exit);
 MODULE_DESCRIPTION("QPNP SMB Charger");
 MODULE_LICENSE("GPL v2");
 MODULE_ALIAS("platform:qpnp-smbcharger");
-

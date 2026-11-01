@@ -38,7 +38,6 @@
 #include <linux/alarmtimer.h>
 #include <linux/qpnp/qpnp-revid.h>
 #include <linux/reboot.h>
-
 /* Register offsets */
 
 /* Interrupt offsets */
@@ -2026,12 +2025,6 @@ static void fg_handle_battery_insertion(struct fg_chip *chip)
 	schedule_delayed_work(&chip->batt_profile_init, 0);
 	cancel_delayed_work(&chip->update_sram_data);
 	schedule_delayed_work(&chip->update_sram_data, msecs_to_jiffies(0));
-}
-
-
-static int soc_to_setpoint(int soc)
-{
-	return DIV_ROUND_CLOSEST(soc * 255, 100);
 }
 
 static void batt_to_setpoint_adc(int vbatt_mv, u8 *data)
@@ -7904,7 +7897,7 @@ err_remove_fs:
  * configures SRAM transaction, namely: address, and count.
  * @returns valid pointer on success or NULL
  */
-struct dentry *fg_dfs_get_root(void)
+static struct dentry *fg_dfs_get_root(void)
 {
 	if (dbgfs_data.root)
 		return dbgfs_data.root;
@@ -7923,7 +7916,7 @@ struct dentry *fg_dfs_get_root(void)
  * fg_dfs_create: adds new fg_mem if debugfs entry
  * @return zero on success
  */
-int fg_dfs_create(struct fg_chip *chip)
+static int fg_dfs_create(struct fg_chip *chip)
 {
 	struct dentry *root;
 	struct dentry *file;
@@ -8055,8 +8048,9 @@ static int fg_common_hw_init(struct fg_chip *chip)
 	}
 
 	rc = fg_mem_masked_write(chip, settings[FG_MEM_DELTA_SOC].address, 0xFF,
-			soc_to_setpoint(settings[FG_MEM_DELTA_SOC].value),
-			settings[FG_MEM_DELTA_SOC].offset);
+		settings[FG_MEM_DELTA_SOC].value,
+		settings[FG_MEM_DELTA_SOC].offset);
+	
 	if (rc) {
 		pr_err("failed to write delta soc rc=%d\n", rc);
 		return rc;
@@ -9244,6 +9238,7 @@ static struct platform_driver fg_driver = {
 
 static int __init fg_init(void)
 {
+	fg_sram_update_period_ms = 3000;
 	return platform_driver_register(&fg_driver);
 }
 
@@ -9258,4 +9253,3 @@ module_exit(fg_exit);
 MODULE_DESCRIPTION("QPNP Fuel Gauge Driver");
 MODULE_LICENSE("GPL v2");
 MODULE_ALIAS("platform:" QPNP_FG_DEV_NAME);
-
