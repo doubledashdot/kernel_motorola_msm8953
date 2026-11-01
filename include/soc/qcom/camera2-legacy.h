@@ -1,1 +1,0 @@
-/home/skye/mot/techpack/camera-legacy/include/soc/qcom/camera2-legacy.h

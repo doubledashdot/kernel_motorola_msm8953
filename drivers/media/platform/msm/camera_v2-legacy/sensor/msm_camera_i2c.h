@@ -1,1 +1,0 @@
-/home/skye/mot/drivers/media/platform/msm/camera_v2-legacy/sensor/io/msm_camera_i2c.h
